@@ -1,0 +1,54 @@
+FROM python:3.7.3-slim
+
+# 来源https://mirrors.tuna.tsinghua.edu.cn/help/debian/。版本是stretch。
+# Debian 的软件源配置文件是 /etc/apt/sources.list。
+# 将系统自带的该文件做个备份，将该文件替换为下面内容，即可使用 TUNA 的软件源镜像。
+# 如果遇到无法拉取 https 源的情况，请先使用 http 源并安装：
+COPY source_debian_stretch.list /etc/apt/sources.list
+
+# ENV PIP_INSTALL_ARG="--default-timeout=100 --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple"
+ENV PIP_INSTALL_ARG="--default-timeout=100 --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple"
+# ENV PIP_INSTALL_ARG="--no-cache-dir"
+
+RUN apt update \
+    && apt install -y sudo ca-certificates wget gcc make zlib1g zlib1g-dev libffi-dev git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz \
+    && tar -xzf ta-lib-0.4.0-src.tar.gz \
+    && cd ta-lib/ \
+    && ./configure --prefix=/usr \
+    && make \
+    && sudo make install \
+    && cd .. \
+    && pip --version \
+    && pip3 install --upgrade pip $PIP_INSTALL_ARG \
+    && pip3 install TA-Lib==0.4.17 $PIP_INSTALL_ARG \
+    && rm -r ta-lib \
+    && rm ta-lib-0.4.0-src.tar.gz \
+    && pip --version
+
+RUN pip install numpy==1.16.2 $PIP_INSTALL_ARG \
+    && pip install empyrical==0.5.3 $PIP_INSTALL_ARG \
+    && pip install matplotlib==3.3.2 $PIP_INSTALL_ARG \
+    && pip install seaborn==0.9.0 $PIP_INSTALL_ARG \
+    && pip install mplfinance==0.12.6a3 $PIP_INSTALL_ARG \
+    && pip install abupy==0.4.0 $PIP_INSTALL_ARG \
+    && pip install TA-Lib==0.4.17 $PIP_INSTALL_ARG \
+    && pip install peakutils==1.3.3 $PIP_INSTALL_ARG \
+    && pip install ipywidgets==7.4.2 $PIP_INSTALL_ARG \
+    && pip install bokeh==2.0.2 $PIP_INSTALL_ARG \
+    && pip install toolz==0.10.0 $PIP_INSTALL_ARG \
+    && pip install notebook $PIP_INSTALL_ARG \
+    && pip install jupyter_contrib_nbextensions $PIP_INSTALL_ARG \
+    && pip install quantaxis==1.9.30 $PIP_INSTALL_ARG \
+    && pip install pandas==1.0.5 $PIP_INSTALL_ARG \
+    && pip uninstall -y pytdx janus \
+    && pip install pytdx==1.72 janus==0.4.0 $PIP_INSTALL_ARG \
+    # 启用jupyter扩展
+    && jupyter contrib nbextension install --user \
+    && pip3 install --upgrade git+https://github.com/GuQiangJS/gquant.git --no-cache-dir
+
+EXPOSE 8888
+
+CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0","--allow-root"]
