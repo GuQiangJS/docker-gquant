@@ -1,7 +1,9 @@
-基于centos配置GQuant可用的Python环境。
+* `Dockerfile_python3.7.3-slim` 是基于 [python3.7.3-slim](https://hub.docker.com/layers/python/library/python/3.7.3-slim/images/sha256-8baf9805da02f00e4e668ae96850107903c7201cad0350380bbbbbf38846f293) 构建的适用于 gquant 分析的python环境。其中`python`版本为`3.7.3`.
 
-运行方式：
-```bash
-# 默认启动jupyter notebook，并且可以通过localhost:8888访问。（不设置token）
-docker run -it -p 8888:8888 镜像名称 jupyter notebook --ip 0.0.0.0 --allow-root --no-browser --NotebookApp.token=''
-```
+  > 此版本是基于 `debian`的`stretch`版本构建。构建时会自动将`/etc/apt/sources.list`修改为[清华大学的开源镜像](https://mirrors.tuna.tsinghua.edu.cn/help/debian/)。
+
+* `Dockerfile_centos8.2.2004` 是基于 [centos8.2.2004](https://hub.docker.com/layers/centos/library/centos/centos8.2.2004/images/sha256-cf4f5cf174e78810379036c53fd6d258d13b3735aa5611b0b61e331a8fedbac6)构建的适用于 gquant 分析的python环境。其中`python`版本为`3.6.x`。
+
+
+
+![20201209174927](20201209174927.png)
