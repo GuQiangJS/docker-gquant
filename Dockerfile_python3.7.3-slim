@@ -11,7 +11,7 @@ ENV PIP_INSTALL_ARG="--default-timeout=100 --no-cache-dir -i https://mirrors.ali
 # ENV PIP_INSTALL_ARG="--no-cache-dir"
 
 RUN apt update \
-    && apt install -y sudo ca-certificates wget gcc make zlib1g zlib1g-dev libffi-dev git \
+    && apt install -y sudo ca-certificates wget gcc make zlib1g zlib1g-dev libffi-dev git python3-tk \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz \
@@ -44,10 +44,26 @@ RUN pip install numpy==1.16.2 $PIP_INSTALL_ARG \
     && pip install quantaxis==1.9.30 $PIP_INSTALL_ARG \
     && pip install pandas==1.0.5 $PIP_INSTALL_ARG \
     && pip uninstall -y pytdx janus \
-    && pip install pytdx==1.72 janus==0.4.0 $PIP_INSTALL_ARG \
+    && pip install pytdx==1.72 janus==0.4.0 tabulate==0.8.3 xlrd==1.2.0 yapf openpyxl \
+    xlsxwriter $PIP_INSTALL_ARG \
     # 启用jupyter扩展
     && jupyter contrib nbextension install --user \
-    && pip3 install --upgrade git+https://github.com/GuQiangJS/gquant.git --no-cache-dir
+    && pip3 install --upgrade git+https://github.com/GuQiangJS/gquant.git --no-cache-dir \
+    && pip3 install --upgrade git+https://github.com/GuQiangJS/abu.git --no-cache-dir
+
+
+# 配置matplotlib
+ENV matplotlibrc /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc
+ENV mpl_path /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/
+
+COPY simhei.ttf "$mpl_path"fonts/ttf/SimHei.ttf
+
+RUN sed -i 's/#font.family/font.family/' "$matplotlibrc" \
+    && sed -i 's/#font.sans-serif\s*:/font.sans-serif : SimHei, /' "$matplotlibrc" \
+    && sed -i 's/#axes.unicode_minus\s*:\s*True/axes.unicode_minus  : False/' "$matplotlibrc" 
+
+# 复制需要的数据，数据来源 https://github.com/bbfamily/abu/tree/master/abupy/RomDataBu
+COPY stock_code_CN.csv /usr/local/lib/python3.7/site-packages/abupy/RomDataBu/stock_code_CN.csv
 
 EXPOSE 8888
 
