@@ -39,3 +39,15 @@ root@21612463eae6:/#
 > 然后你会在你本地生成一个文本，上边记录你的账号和密码。当然这些你可以不用关心。
 > 
 > 然后你使用上述的命令配置好之后，再操作一次git pull，然后它会提示你输入账号密码，这一次之后就不需要再次输入密码了。
+
+# 更新文件
+
+每年需要更新交易日信息，该信息包含在`QUANTAXIS/QAUtil/QADate_trade.py`文件中。
+
+如下示例表示
+
+* -N 替换原有文件
+* -P 指定下载目标目录，替换原本的`QADate_trade.py`
+* -e 使用指定代理
+
+`wget -N -P /usr/local/lib/python3.7/site-packages/QUANTAXIS/QAUtil/ https://raw.githubusercontent.com/QUANTAXIS/QUANTAXIS/master/QUANTAXIS/QAUtil/QADate_trade.py -e use_proxy=yes -e https_proxy=127.0.0.1:1080`
