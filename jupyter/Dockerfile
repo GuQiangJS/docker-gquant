@@ -44,7 +44,9 @@ RUN pip install numpy==1.16.2 $PIP_INSTALL_ARG \
     && pip install toolz==0.10.0 $PIP_INSTALL_ARG \
     && pip install notebook $PIP_INSTALL_ARG \
     && pip install jupyter_contrib_nbextensions $PIP_INSTALL_ARG \
-    && pip install quantaxis==1.9.30 $PIP_INSTALL_ARG \
+    # 1.9.32 版本才修复了财务数据无法导入数据库的问题 https://github.com/QUANTAXIS/QUANTAXIS/commit/d10012099c42de7e60b1712e633c8de0fa5cc43a#diff-89c4c4778cd00cb19c03289adeb742a625990e0a670acdc506bf40309f041ee5
+    # 2020-08-31修复了580错误。但是没有发版，最接近版本为1.10.1 https://github.com/QUANTAXIS/QUANTAXIS/pull/1580
+    && pip install quantaxis==1.10.1 $PIP_INSTALL_ARG \
     && pip install pandas==1.0.5 $PIP_INSTALL_ARG \
     && pip uninstall -y pytdx janus \
     && pip install pytdx==1.72 janus==0.4.0 tabulate==0.8.3 xlrd==1.2.0 yapf openpyxl \
