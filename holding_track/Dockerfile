@@ -131,7 +131,7 @@ RUN npm install ng-zorro-antd
 
 RUN ng build --prod
 
-RUN sed -i 's/localhost:5000/172.16.2.146:5000/' dist/client/main.*.js
+# RUN sed -i 's/localhost:5000/172.16.2.146:5000/' dist/client/main.*.js
 
 WORKDIR /
 
