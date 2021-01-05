@@ -27,3 +27,17 @@ you are using non-interactive mdoel quantaxis
 ```
 
 * 2020-12-18：貌似ant-ng-zorro相关的样式无法加载，造成网页显示很烂，所以暂时作为web服务器使用。
+
+# 待处理
+
+## 更新文件
+
+每年需要更新交易日信息，该信息包含在`QUANTAXIS/QAUtil/QADate_trade.py`文件中。
+
+如下示例表示
+
+* -N 替换原有文件
+* -P 指定下载目标目录，替换原本的`QADate_trade.py`
+* -e 使用指定代理
+
+`wget -N -P /usr/local/lib/python3.7/site-packages/QUANTAXIS/QAUtil/ https://raw.githubusercontent.com/QUANTAXIS/QUANTAXIS/master/QUANTAXIS/QAUtil/QADate_trade.py -e use_proxy=yes -e https_proxy=127.0.0.1:1080`
