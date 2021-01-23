@@ -26,7 +26,7 @@ you are using non-interactive mdoel quantaxis
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
 
-* 2020-12-18：貌似ant-ng-zorro相关的样式无法加载，造成网页显示很烂，所以暂时作为web服务器使用。
+~~* 2020-12-18：貌似ant-ng-zorro相关的样式无法加载，造成网页显示很烂，所以暂时作为web服务器使用。~~
 
 # 待处理
 
