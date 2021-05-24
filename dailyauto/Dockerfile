@@ -12,7 +12,7 @@ ENV PIP_INSTALL_ARG="--default-timeout=100 --no-cache-dir -i https://mirrors.ali
 
 # 更新系统必须的包
 RUN apt update \
-    && apt install -y sudo ca-certificates wget gcc make zlib1g zlib1g-dev libffi-dev git python3-tk cron \
+    && apt install -y sudo ca-certificates wget gcc make zlib1g zlib1g-dev libffi-dev git python3-tk cron nscd \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装talib依赖项
@@ -119,6 +119,8 @@ RUN sed -i "s/{username}/${git_username}/" /dailyauto.sh \
 # Give execution rights on the cron job
 RUN chmod 0644 /etc/cron.d/dailyauto \
     && crontab /etc/cron.d/dailyauto
+    
+# 0 18 * * * sudo /bin/bash /update_github_hosts.sh
 
 # Run the command on container startup
 CMD cron -f && tail -f /dailyauto.log
