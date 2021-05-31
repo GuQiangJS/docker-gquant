@@ -32,7 +32,7 @@ cp /gquant-report/readme.md /gquant-report/history/$TODAY.md
 RETIRES=5
 COUNT=1
 while [ ${COUNT} -lt ${RETIRES} ]; do
-  /user/bin/git push
+  /usr/bin/git push
   if [ $? -eq 0 ]; then
     echo $?
     RETRIES=0
