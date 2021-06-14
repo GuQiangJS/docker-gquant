@@ -3,7 +3,7 @@
 # 每天18:30执行报告
 30 18 * * * /bin/bash /dailyauto.sh >> /dailyauto.log 2>&1
 # 每周删除一次执行日志
-0 0 * * 0 rm -f /dailyauto.log
+0 0 * * 1 rm -f /dailyauto.log
 # 每个月更新一次QADate_trade.py文件。（每年需要更新交易日信息）
-0 0 1 * * wget -N -P /usr/local/lib/python3.7/site-packages/QUANTAXIS/QAUtil/ https://raw.githubusercontent.com/QUANTAXIS/QUANTAXIS/master/QUANTAXIS/QAUtil/QADate_trade.py -e use_proxy=yes -e https_proxy=172.16.2.146:1080
+0 0 1,15,30 12 * wget -N -P /usr/local/lib/python3.7/site-packages/QUANTAXIS/QAUtil/ https://raw.githubusercontent.com/QUANTAXIS/QUANTAXIS/master/QUANTAXIS/QAUtil/QADate_trade.py -e use_proxy=yes -e https_proxy=172.16.2.146:1080
 # An empty line is required at the end of this file for a valid cron file.
